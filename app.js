@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const session = require('express-session');
+const MongoStore = require('connect-mongo'); //sunucu kapansa da session bilgilerini tutmaya yarar.
+
 const pageRoute = require("./routes/pageRoute");
 const courseRoute = require("./routes/courseRoute");
 const categoryRoute = require("./routes/categoryRoute");
@@ -21,12 +24,26 @@ mongoose.connect('mongodb://localhost/smartedu-db', {
 // Template Engine
 app.set("view engine", "ejs");
 
+// Global variables
+
+global.userIN = null;  //if ifadesindeki false degerine karsılık gelir.
+
 // MIDDLEWARES
 app.use(express.static("public"));
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(session({  //session middleware
+  secret: 'my_keyboard_cat',
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: 'mongodb://localhost/smartedu-db' }) //sunucu kapansa da session bilgilerini tutmaya yarar.
+}))
 
 // Routes
+app.use("*", (req,res,next)=> { //diger middleware'lere gecmesi icin next kullandık. diger middlewarelerde kulanmamamızın nedeni ise res.redirect, res.send gibi bi sekilde sonlanıyorlar kendi iclerinde.
+  userIN = req.session.userID; // artık true oldu.
+  next();
+})
 app.use("/", pageRoute);
 app.use("/courses", courseRoute);
 app.use("/categories", categoryRoute);
