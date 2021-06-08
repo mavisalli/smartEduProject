@@ -32,6 +32,10 @@ exports.getContactPage = (req, res) => {
 };
 
 exports.sendMail = async (req, res) => {
+
+  try {
+
+  
   
   const outputMessage = `
 
@@ -71,6 +75,12 @@ exports.sendMail = async (req, res) => {
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
+  req.flash("success", "We received your message successfully");
   res.status(200).redirect("/contact");
 
+ } catch (err) {
+  //  req.flash("error", "Something Happened ! ${err}");
+   req.flash("error", "Something Happened !")
+   res.status(400).redirect("/contact");
+ }
 };

@@ -10,15 +10,14 @@ exports.createCourse = async (req, res) => {
       category: req.body.category,
       user: req.session.userID //artık bi kurs olusturdugumuzda user bilgisine de sahip olucaz.
     });
-  
+    
+    req.flash("success", `${course.name} has been created successfully`);
     res.status(201).redirect("/courses");
   } catch (error) {
-    res.status(400).json({
-      //400 bad request hatasıdır genellikle syntax hatasından olur.
-      status: "fail", //illa status olmasına gerek anlamlı bi mesaj olsun yeter. message: da yapabilirdik
-      error,
-    });
+    req.flash("error", "Something happened!");
+    res.status(400).redirect("/courses");
   }
+
 };
 
 //try catch blogu hatayı yakalamak icin
