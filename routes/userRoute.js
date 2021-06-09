@@ -7,27 +7,24 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-router.route("/signup").post(
+router.route('/signup').post(
     [
+        body('name').not().isEmpty().withMessage('Please Enter Your Name'),
 
-        body("name").not().isEmpty().withMessage("Please enter your name!"),
 
-
-        body("email").isEmail().withMessage("Please Enter Valid Email!")
-        .custom((userEmail)=>{  //özel validation olusturduk.
-            return User.findOne({email: userEmail}).then(user => {
-                if(user){
-                    return Promise.reject("Email is already exist")
+        body('email').isEmail().withMessage('Please Enter Valid Email')
+        .custom((userEmail)=> {
+            return User.findOne({email:userEmail}).then(user => {
+                if (user) {
+                    return Promise.reject('Email is already exists!')
                 }
             })
         }),
 
-
-        body("password").not().isEmpty().withMessage("Please Enter A Password!")
-
-
+        body('password').not().isEmpty().withMessage('Please Enter A Password'),
     ],
-    authController.createUser); // http://localhost:3000/users/signup demek aslında
+    
+    authController.createUser);// http://localhost:3000/users/signup demek aslında
 
 router.route("/login").post(authController.loginUser);
 

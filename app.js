@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const session = require('express-session');
 const MongoStore = require('connect-mongo'); //sunucu kapansa da session bilgilerini tutmaya yarar.
 const flash = require('connect-flash');
+const methodOverride = require("method-override");
 
 const pageRoute = require("./routes/pageRoute");
 const courseRoute = require("./routes/courseRoute");
@@ -44,6 +45,11 @@ app.use((req,res,next)=> {
   res.locals.flashMessages = req.flash(); //flash'ta olusturdugum mesajları localde flashmessage degiskenine atıyoruz. bu degiskeni olusturmamın sebebi ilgili templatelerde flash messagelarını olusturabilmek.
   next();
 })
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"]
+  })
+);
 
 // Routes
 app.use("*", (req,res,next)=> { //diger middleware'lere gecmesi icin next kullandık. diger middlewarelerde kulanmamamızın nedeni ise res.redirect, res.send gibi bi sekilde sonlanıyorlar kendi iclerinde.

@@ -13,10 +13,9 @@
                         <form method="POST" action="users/login">
                             <div class="row row-fluid">
                                 <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                    
-                                    <% if(flashMessages) { %>
-                
-                                        <% if(flashMessages.success) { %>
+                                    <% if (flashMessages) { %>
+    
+                                        <% if (flashMessages.success) { %>
                                             <div class="alert alert-success">
                                                 <%= flashMessages.success %>
                                             </div>
@@ -25,8 +24,6 @@
                                             <div class="alert alert-danger">
                                                 <%= flashMessages.error %>
                                             </div>
-                
-                
                                         <% } %>
                 
                                     <% } %>

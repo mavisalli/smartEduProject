@@ -77,7 +77,28 @@
 
 
 
-					<div class="col-lg-12 blog-post-single">					
+					<div class="col-lg-12 blog-post-single">
+
+						<div class="col-lg-12 mx-1">
+							<% if(flashMessages) { %>
+
+								<% if(flashMessages.success) { %>
+									<div class="alert alert-success">
+										<%= flashMessages.success %>
+									</div>
+		
+								<% } else if (flashMessages.error) { %>
+									<div class="alert alert-danger">
+										<%= flashMessages.error %>
+									</div>
+		
+		
+								<% } %>
+		
+							<% } %>
+
+						</div>
+											
 						<div class="blog-author">
 							<div class="author-bio">
 								<h3 class="author_name">COURSE FROM: <%= user.name %></h3>
@@ -101,7 +122,13 @@
 									<h2><a href="/courses/<%= courses[i].slug %>" title=""><%= courses[i].name %></a></h2>
 								</div>
 								<div class="course-desc">
-									<p><%= courses[i].name %></p>
+									<p><%= courses[i].description %></p>
+								</div>
+								<div class="clearfix">
+									<ul style="list-style-type: none;">
+										<li style="float: left"><button class="btn btn-primary rounded-0 text-white"><span>UPDATE</span></button></li>
+										<li style="float: right"><a href="/courses/<%= courses[i].slug %>?_method=DELETE" onclick="return confirm('ARE YOU SURE')" class="btn btn-danger rounded-0 text-white"><span>DELETE</span></a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
