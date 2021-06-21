@@ -14,7 +14,7 @@ const userRoute = require("./routes/userRoute");
 const app = express();
 
 // Connect DB
-mongoose.connect('mongodb+srv://mavibariss:Kitaptek12@cluster0.ru6au.mongodb.net/smartedu-db?retryWrites=true&w=majority', {
+mongoose.connect('mongodb://localhost/smartedu-db', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -38,7 +38,7 @@ app.use(session({  //session middleware
   secret: 'my_keyboard_cat',
   resave: false,
   saveUninitialized: true,
-  store: MongoStore.create({ mongoUrl: 'mongodb+srv://mavibariss:Kitaptek12@cluster0.ru6au.mongodb.net/smartedu-db?retryWrites=true&w=majority' }) //sunucu kapansa da session bilgilerini tutmaya yarar.
+  store: MongoStore.create({ mongoUrl: 'mongodb://localhost/smartedu-db' }) //sunucu kapansa da session bilgilerini tutmaya yarar.
 }))
 app.use(flash()); //connect-flash'ın middleware'ı
 app.use((req,res,next)=> {
@@ -63,7 +63,7 @@ app.use("/users", userRoute);
 
 
 
-const port = process.env.PORT || 5000;
+const port = 3000;
 app.listen(port, () => {
   console.log(`App started on port ${port}`);
 });
